@@ -1,5 +1,7 @@
 package ann;
 
+import com.alibaba.fastjson.JSON;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -124,12 +126,15 @@ public class AnnClassifier
 		reset();
 		for (int i = 0; i < n; i++)
 		{
+			System.out.println("第"+i+"次训练");
 			for (int j = 0; j < trainNodes.size(); j++)
 			{
 				forward(trainNodes.get(j).getAttribList());
 				backward(trainNodes.get(j).getType());
 				updateWeights(eta);
 			}
+			System.out.println(JSON.toJSONString(this.mHiddenOutputWeight));
+			System.out.println(JSON.toJSONString(this.mHiddenOutputWeight));
 			System.out.println("n = " + i);
 
 		}

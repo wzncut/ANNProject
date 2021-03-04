@@ -10,9 +10,8 @@ import java.io.FileWriter;
 import java.util.List;
 
 /**
- * 说明：目前使用的这份测试集是从原始数据中随机抽取26个组成的
  * 
- * @author chenjing
+ * @author wangzhe
  * 
  */
 public class MainClass
@@ -39,8 +38,8 @@ public class MainClass
 				outputfile)));
 		int typeCount = util.getTypeCount();
 		AnnClassifier annClassifier = new AnnClassifier(trainList.get(0)
-				.getAttribList().size(), trainList.get(0).getAttribList()
-				.size() + 8, typeCount);
+				.getAttribList().size(), new Double(Math.floor(Math.sqrt(trainList.get(0).getAttribList()
+				.size() + typeCount))).intValue()+8, typeCount);
 		annClassifier.setTrainNodes(trainList);
 		annClassifier.train(eta, nIter);
 		for (int i = 0; i < testList.size(); i++)
