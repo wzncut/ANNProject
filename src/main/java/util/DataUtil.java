@@ -91,6 +91,40 @@ public class DataUtil
 				}
 			}
 		}
+		br.close();
 		return list;
+	}
+
+	public float getResultList(String fileName1,String fileName2, String sep)
+			throws Exception
+	{
+		float k=0;
+		float temp=0;
+		BufferedReader br = new BufferedReader(new FileReader(
+				new File(fileName1)));
+		BufferedReader br2 = new BufferedReader(new FileReader(
+				new File(fileName2)));
+		String line = null;
+		LinkedList<String> list1= new LinkedList<String>();
+		LinkedList<String> list2= new LinkedList<String>();
+		while ((line = br.readLine()) != null)
+		{	k++;
+			String sub = line.substring(224);
+			list1.add(sub);
+		}
+		while ((line = br2.readLine()) != null)
+		{
+			String sub = line.substring(112);
+			list2.add(sub);
+		}
+		for (int i=0;i<k;i++)
+		{
+			if (list1.get(i).equals(list2.get(i))){
+				temp++;
+			}
+		}
+		br.close();
+		br2.close();
+		return temp/k;
 	}
 }

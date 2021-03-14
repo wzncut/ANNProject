@@ -57,6 +57,9 @@ public class MainClass
 		}
 		output.close();
 
+		//统计准确度
+		float result=util.getResultList("src/main/resources/ANNoutput.txt","src/main/resources/ANNtest.txt"," ");
+		System.out.println("准确度为:"+result*100+"%");
 	}
 
 }
