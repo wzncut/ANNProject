@@ -2,6 +2,7 @@ package ann;
 
 import util.ConsoleHelper;
 import util.DataUtil;
+import util.MemoryLogger;
 
 
 import java.io.BufferedWriter;
@@ -29,8 +30,8 @@ public class MainClass
 		String testfile = helper.getArg("-test", "src/main/resources/ANNtest.txt");
 		String separator = helper.getArg("-sep", " ");
 		String outputfile = helper.getArg("-out", "src/main/resources/ANNoutput.txt");
-		float eta = helper.getArg("-eta", 0.02f);
-		int nIter = helper.getArg("-iter", 1000);
+		float eta = helper.getArg("-eta", 0.1f);
+		int nIter = helper.getArg("-iter", 2000);
 		DataUtil util = DataUtil.getInstance();
 		List<DataNode> trainList = util.getDataList(trainfile, separator);
 		List<DataNode> testList = util.getDataList(testfile, separator);
@@ -39,9 +40,12 @@ public class MainClass
 		int typeCount = util.getTypeCount();
 		AnnClassifier annClassifier = new AnnClassifier(trainList.get(0)
 				.getAttribList().size(), new Double(Math.floor(Math.sqrt(trainList.get(0).getAttribList()
-				.size() + typeCount))).intValue()+8, typeCount);
+				.size() + typeCount))).intValue()+1, typeCount);
 		annClassifier.setTrainNodes(trainList);
+		long startTime=System.currentTimeMillis();
 		annClassifier.train(eta, nIter);
+		long endTime=System.currentTimeMillis();
+
 		for (int i = 0; i < testList.size(); i++)
 		{
 			DataNode test = testList.get(i);
@@ -60,6 +64,6 @@ public class MainClass
 		//统计准确度
 		float result=util.getResultList("src/main/resources/ANNoutput.txt","src/main/resources/ANNtest.txt"," ");
 		System.out.println("准确度为:"+result*100+"%");
-	}
-
+		System.out.println("Memory : " + MemoryLogger.getInstance().getMaxMemory() + " mb");
+		System.out.println("Total time : " + (endTime - startTime) + " ms");	}
 }

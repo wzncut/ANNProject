@@ -1,6 +1,7 @@
 package ann;
 
 import com.alibaba.fastjson.JSON;
+import util.MemoryLogger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +62,7 @@ public class AnnClassifier
 				mHiddenOutputWeight[i][j] -= eta
 						* mHiddenNodes.get(i).getForwardOutputValue()
 						* mOutputNodes.get(j).getBackwardOutputValue();
+		MemoryLogger.getInstance().checkMemory();
 	}
 
 	/**
@@ -93,6 +95,7 @@ public class AnnClassifier
 			//输出层节点值（sigmoid函数）
 			mOutputNodes.get(j).setForwardInputValue(temp);
 		}
+		MemoryLogger.getInstance().checkMemory();
 	}
 
 	/**
@@ -119,10 +122,12 @@ public class AnnClassifier
 						* mOutputNodes.get(k).getBackwardOutputValue();
 			mHiddenNodes.get(j).setBackwardInputValue(temp);
 		}
+		MemoryLogger.getInstance().checkMemory();
 	}
 
 	public void train(float eta, int n)
 	{
+		MemoryLogger.getInstance().reset();
 		reset();
 		for (int i = 0; i < n; i++)
 		{
